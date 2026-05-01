@@ -19,8 +19,13 @@ class SentimentModel:
         self.output_name = self.session.get_outputs()[0].name
 
     def predict(self, text: str) -> float:
-        # Convert text → numpy tensors
-        inputs = self.tokenizer(text, return_tensors="np")
+        # Convert text → numpy tensors with truncation to avoid ONNX shape errors
+        inputs = self.tokenizer(
+            text,
+            return_tensors="np",
+            truncation=True,
+            max_length=512
+        )
 
         ort_inputs = {
             self.input_ids_name: inputs["input_ids"],
@@ -37,6 +42,7 @@ class SentimentModel:
         score = float(flat[-1])
 
         return score
+
 
 
 
