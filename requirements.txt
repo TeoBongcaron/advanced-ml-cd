@@ -1,6 +1,8 @@
 fastapi
-uvicorn[standard]
+uvicorn
 onnxruntime==1.17.0
 numpy==1.26.4
 pytest
 httpx
+transformers
+pydantic
