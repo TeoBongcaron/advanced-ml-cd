@@ -29,8 +29,14 @@ class SentimentModel:
 
         # Run ONNX inference
         outputs = self.session.run([self.output_name], ort_inputs)[0]
-        score = float(outputs[0])
+
+        # Flatten ANY output shape to 1D
+        flat = outputs.flatten()
+
+        # Use the last value (positive logit)
+        score = float(flat[-1])
 
         return score
+
 
 
